@@ -1,0 +1,19 @@
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read/write access to the 'exams' collection for any authenticated user.
+    // This is a simple rule for now. In a production app, you'd want more
+    // granular control (e.g., only teachers can create/update, students can only read).
+    match /exams/{examId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // You can add rules for other collections here.
+    // For example, to store user roles:
+    // match /users/{userId} {
+    //   allow read, write: if request.auth != null && request.auth.uid == userId;
+    // }
+  }
+}
